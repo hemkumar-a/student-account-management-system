@@ -1,0 +1,8 @@
+from django.apps import AppConfig
+
+
+class ResultConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.result"
+    label = "result"
+    verbose_name = "Student Results"
