@@ -326,7 +326,7 @@ def student_delete(request, pk):
 
     return render(
         request,
-        "accounts/student_detail.html",
+        "accounts/student_details.html",
         {
             "student": student,
             "confirm_delete": True,
