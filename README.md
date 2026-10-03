@@ -184,15 +184,39 @@ Then open the local address shown by Django in your browser.
 
 ## Configuration & Security
 
-The repository is prepared as a development/portfolio project. Before production deployment:
+The project reads security settings from environment variables so secrets do not need to be committed to source control.
 
-- Replace the development `SECRET_KEY` with a secure environment variable.
-- Set `DEBUG = False`.
-- Restrict `ALLOWED_HOSTS` to the intended domains.
-- Keep production credentials and secrets outside source control.
-- Use a production-grade database and deployment configuration.
+### Local development
 
-The local SQLite database is intentionally not part of the public source package; a fresh database can be created with the migration commands above.
+Set debug mode for local development.
+
+**Windows PowerShell:**
+
+```powershell
+$env:DJANGO_DEBUG="True"
+```
+
+**macOS/Linux:**
+
+```bash
+export DJANGO_DEBUG=True
+```
+
+The default development host configuration allows `127.0.0.1` and `localhost`.
+
+### Production
+
+Set a real Django secret key, disable debug mode, and restrict allowed hosts:
+
+```text
+DJANGO_DEBUG=False
+DJANGO_SECRET_KEY=<your-secure-secret>
+DJANGO_ALLOWED_HOSTS=<your-domain>
+```
+
+When `DEBUG=False`, the application requires `DJANGO_SECRET_KEY` to be set and enables production security settings such as secure session/CSRF cookies, HTTPS redirect, HSTS, and content-type protection.
+
+Keep production credentials and secrets outside source control. The local SQLite database is intentionally not part of the public source package; a fresh database can be created with the migration commands above.
 
 ## Learning / Engineering Highlights
 
