@@ -127,9 +127,7 @@ class StudentProfileForm(forms.ModelForm):
         model = StudentProfile
 
         fields = [
-            "department",
-            "date_of_birth",
-            "status",
+            "date_of_birth"
         ]
 
         widgets = {
@@ -150,12 +148,22 @@ class StudentProfileForm(forms.ModelForm):
 
 class StudentCreateForm(forms.ModelForm):
     password = forms.CharField(
+        required=False,
+        min_length=8,
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
             }
         )
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            self.fields["password"].required = False
+        else:
+            self.fields["password"].required = True
 
     class Meta:
         model = User
