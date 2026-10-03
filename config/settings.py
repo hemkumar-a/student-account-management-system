@@ -9,20 +9,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ============================================================
 
+DEBUG = os.environ.get(
+    "DJANGO_DEBUG",
+    "False",
+).lower() == "true"
+
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 if not SECRET_KEY:
-    if os.environ.get("DJANGO_DEBUG", "True").lower() == "true":
+    if DEBUG:
         SECRET_KEY = "development-only-key-change-me"
     else:
         raise RuntimeError(
             "DJANGO_SECRET_KEY must be set when DEBUG=False."
         )
 
-DEBUG = os.environ.get(
-    "DJANGO_DEBUG",
-    "False",
-).lower() == "true"
+
 # ============================================================
 # PRODUCTION SECURITY
 # ============================================================
