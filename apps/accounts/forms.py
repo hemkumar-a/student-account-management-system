@@ -131,17 +131,11 @@ class StudentProfileForm(forms.ModelForm):
         ]
 
         widgets = {
-            "department": forms.Select(
-                attrs={"class": "form-select"}
-            ),
             "date_of_birth": forms.DateInput(
                 attrs={
                     "class": "form-control",
                     "type": "date",
                 }
-            ),
-            "status": forms.Select(
-                attrs={"class": "form-select"}
             ),
         }
 
