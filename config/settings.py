@@ -9,15 +9,32 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ============================================================
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-student-management-development-key",
-)
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+
+if not SECRET_KEY:
+    if os.environ.get("DJANGO_DEBUG", "True").lower() == "true":
+        SECRET_KEY = "development-only-key-change-me"
+    else:
+        raise RuntimeError(
+            "DJANGO_SECRET_KEY must be set when DEBUG=False."
+        )
 
 DEBUG = os.environ.get(
     "DJANGO_DEBUG",
-    "True",
+    "False",
 ).lower() == "true"
+# ============================================================
+# PRODUCTION SECURITY
+# ============================================================
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 ALLOWED_HOSTS = [
     host.strip()
