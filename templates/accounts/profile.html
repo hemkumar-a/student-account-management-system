@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>My Profile</h2>
+
+    <a
+        href="{% url 'accounts:profile_edit' %}"
+        class="btn btn-primary"
+    >
+        Edit Profile
+    </a>
+
+</div>
+
+
+<div class="profile-card">
+
+    <div class="row">
+
+        <div class="col-md-3 text-center">
+
+            {% if user.picture %}
+                <img
+                    src="{{ user.picture.url }}"
+                    class="profile-picture"
+                    alt="Profile Picture"
+                >
+            {% endif %}
+
+        </div>
+
+        <div class="col-md-9">
+
+            <h3>
+                {{ user.get_full_name }}
+            </h3>
+
+            <p>
+                <strong>Email:</strong>
+                {{ user.email }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ user.phone|default:"Not provided" }}
+            </p>
+
+            <p>
+                <strong>Address:</strong>
+                {{ user.address|default:"Not provided" }}
+            </p>
+
+            {% if student %}
+
+                <hr>
+
+                <p>
+                    <strong>Student ID:</strong>
+                    {{ student.student_id }}
+                </p>
+
+                <p>
+                    <strong>Department:</strong>
+                    {{ student.department|default:"Not assigned" }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ student.get_status_display }}
+                </p>
+
+                <p>
+                    <strong>Admission Date:</strong>
+                    {{ student.admission_date }}
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

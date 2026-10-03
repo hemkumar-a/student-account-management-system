@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Course Allocations{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Course Allocations</h2>
+
+    {% if user.is_staff %}
+        <a
+            href="{% url 'course:allocation_create' %}"
+            class="btn btn-primary"
+        >
+            Allocate Courses
+        </a>
+    {% endif %}
+
+</div>
+
+
+{% for allocation in allocations %}
+
+    <div class="dashboard-panel mb-3">
+
+        <h5>
+            {{ allocation.student.full_name }}
+        </h5>
+
+        <p>
+            <strong>Student ID:</strong>
+            {{ allocation.student.student_id }}
+        </p>
+
+        <p>
+            <strong>Session:</strong>
+            {{ allocation.session }}
+        </p>
+
+        <strong>Courses:</strong>
+
+        <ul class="mt-2">
+
+            {% for course in allocation.courses.all %}
+
+                <li>
+                    {{ course.code }} - {{ course.title }}
+                </li>
+
+            {% empty %}
+
+                <li>No courses allocated.</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+{% empty %}
+
+    <div class="alert alert-info">
+        No course allocations found.
+    </div>
+
+{% endfor %}
+
+{% endblock %}

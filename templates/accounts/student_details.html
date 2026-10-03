@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Student Details{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Student Details</h2>
+
+    <div>
+
+        <a
+            href="{% url 'accounts:student_edit' student.pk %}"
+            class="btn btn-warning"
+        >
+            Edit
+        </a>
+
+        <a
+            href="{% url 'accounts:student_status' student.pk %}"
+            class="btn btn-info"
+        >
+            Change Status
+        </a>
+
+        <a
+            href="{% url 'accounts:student_delete' student.pk %}"
+            class="btn btn-danger"
+        >
+            Delete
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="profile-card">
+
+    <h3>{{ student.full_name }}</h3>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Student ID:</strong>
+                {{ student.student_id }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ student.user.email }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ student.user.phone|default:"-" }}
+            </p>
+
+            <p>
+                <strong>Address:</strong>
+                {{ student.user.address|default:"-" }}
+            </p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Department:</strong>
+                {{ student.department|default:"-" }}
+            </p>
+
+            <p>
+                <strong>Date of Birth:</strong>
+                {{ student.date_of_birth|default:"-" }}
+            </p>
+
+            <p>
+                <strong>Admission Date:</strong>
+                {{ student.admission_date }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ student.get_status_display }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if confirm_delete %}
+
+<div class="alert alert-danger mt-4">
+
+    <h5>Delete Student?</h5>
+
+    <p>
+        This action cannot be undone.
+    </p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button class="btn btn-danger">
+            Confirm Delete
+        </button>
+
+        <a
+            href="{% url 'accounts:student_detail' student.pk %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

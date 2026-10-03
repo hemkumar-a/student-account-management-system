@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Academic Results</h2>
+
+    {% if user.is_staff %}
+        <a
+            href="{% url 'result:result_create' %}"
+            class="btn btn-primary"
+        >
+            Add Result
+        </a>
+    {% endif %}
+
+</div>
+
+
+<div class="table-responsive">
+
+<table class="table table-hover">
+
+    <thead class="thead-dark">
+
+        <tr>
+            {% if user.is_staff %}
+                <th>Student</th>
+            {% endif %}
+
+            <th>Course</th>
+            <th>Total</th>
+            <th>Grade</th>
+            <th>Point</th>
+            <th>Semester</th>
+            <th>Session</th>
+            <th></th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for result in results %}
+
+            <tr>
+
+                {% if user.is_staff %}
+                    <td>
+                        {{ result.student.student_id }}
+                    </td>
+                {% endif %}
+
+                <td>
+                    {{ result.course.code }}
+                </td>
+
+                <td>
+                    {{ result.total_score }}
+                </td>
+
+                <td>
+                    <span class="badge badge-primary">
+                        {{ result.grade }}
+                    </span>
+                </td>
+
+                <td>
+                    {{ result.point }}
+                </td>
+
+                <td>
+                    {{ result.get_semester_display }}
+                </td>
+
+                <td>
+                    {{ result.session }}
+                </td>
+
+                <td>
+                    <a
+                        href="{% url 'result:result_detail' result.pk %}"
+                        class="btn btn-sm btn-info"
+                    >
+                        View
+                    </a>
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="8" class="text-center">
+                    No results found.
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

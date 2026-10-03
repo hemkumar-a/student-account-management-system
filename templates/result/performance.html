@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Performance{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Academic Performance</h2>
+
+{% if student %}
+
+<div class="row">
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <h6>Average Score</h6>
+            <h2>{{ average_score }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <h6>Total Points</h6>
+            <h2>{{ total_points }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <h6>Passed</h6>
+            <h2>{{ passed }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <h6>Failed</h6>
+            <h2>{{ failed }}</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="table-responsive">
+
+<table class="table table-hover">
+
+    <thead class="thead-dark">
+
+        <tr>
+            <th>Course</th>
+            <th>Total</th>
+            <th>Grade</th>
+            <th>Point</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for result in results %}
+
+            <tr>
+                <td>
+                    {{ result.course.code }}
+                </td>
+
+                <td>
+                    {{ result.total_score }}
+                </td>
+
+                <td>
+                    {{ result.grade }}
+                </td>
+
+                <td>
+                    {{ result.point }}
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-warning">
+    No student profile available.
+</div>
+
+{% endif %}
+
+{% endblock %}

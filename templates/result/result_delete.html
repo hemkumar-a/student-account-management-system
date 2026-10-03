@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Result{% endblock %}
+
+{% block content %}
+
+<div class="form-container text-center">
+
+    <h2>Delete Result</h2>
+
+    <p>
+        Delete result for
+        <strong>{{ result.student.full_name }}</strong>
+        in
+        <strong>{{ result.course.code }}</strong>?
+    </p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button class="btn btn-danger">
+            Yes, Delete
+        </button>
+
+        <a
+            href="{% url 'result:result_detail' result.pk %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

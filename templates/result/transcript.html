@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Transcript{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2>Academic Transcript</h2>
+
+        {% if student %}
+            <p class="text-muted">
+                {{ student.full_name }}
+                — {{ student.student_id }}
+            </p>
+        {% endif %}
+    </div>
+
+    <button
+        onclick="window.print()"
+        class="btn btn-outline-secondary"
+    >
+        Print
+    </button>
+
+</div>
+
+
+{% if student %}
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Total Courses</h6>
+            <h2>{{ summary.total_courses }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Total Credits</h6>
+            <h2>{{ summary.total_credits }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>CGPA</h6>
+            <h2>{{ summary.cgpa }}</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+    <thead class="thead-dark">
+
+        <tr>
+            <th>Course</th>
+            <th>Credits</th>
+            <th>Total</th>
+            <th>Grade</th>
+            <th>Point</th>
+            <th>Semester</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for result in results %}
+
+            <tr>
+
+                <td>
+                    {{ result.course.code }} -
+                    {{ result.course.title }}
+                </td>
+
+                <td>
+                    {{ result.course.credit }}
+                </td>
+
+                <td>
+                    {{ result.total_score }}
+                </td>
+
+                <td>
+                    {{ result.grade }}
+                </td>
+
+                <td>
+                    {{ result.point }}
+                </td>
+
+                <td>
+                    {{ result.get_semester_display }}
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="6" class="text-center">
+                    No academic results available.
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-warning">
+    No student profile available.
+</div>
+
+{% endif %}
+
+{% endblock %}

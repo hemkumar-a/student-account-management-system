@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Change Student Status{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Change Student Status</h2>
+
+    <p>
+        Student:
+        <strong>{{ student.full_name }}</strong>
+    </p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% for field in form %}
+
+            <div class="form-group">
+
+                {{ field.label_tag }}
+
+                {{ field }}
+
+                {% for error in field.errors %}
+                    <small class="text-danger">
+                        {{ error }}
+                    </small>
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+
+        <button class="btn btn-primary">
+            Update Status
+        </button>
+
+        <a
+            href="{% url 'accounts:student_detail' student.pk %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

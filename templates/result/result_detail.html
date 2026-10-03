@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Result Details{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Result Details</h2>
+
+    {% if user.is_staff %}
+
+        <div>
+
+            <a
+                href="{% url 'result:result_edit' result.pk %}"
+                class="btn btn-warning"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'result:result_delete' result.pk %}"
+                class="btn btn-danger"
+            >
+                Delete
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<div class="dashboard-panel">
+
+    <h4>{{ result.course.code }} - {{ result.course.title }}</h4>
+
+    {% if user.is_staff %}
+
+        <p>
+            <strong>Student:</strong>
+            {{ result.student.full_name }}
+        </p>
+
+        <p>
+            <strong>Student ID:</strong>
+            {{ result.student.student_id }}
+        </p>
+
+    {% endif %}
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <strong>Assignment</strong>
+            <h4>{{ result.assignment_score }}</h4>
+        </div>
+
+        <div class="col-md-3">
+            <strong>Exam</strong>
+            <h4>{{ result.exam_score }}</h4>
+        </div>
+
+        <div class="col-md-3">
+            <strong>Total</strong>
+            <h4>{{ result.total_score }}</h4>
+        </div>
+
+        <div class="col-md-3">
+            <strong>Grade</strong>
+            <h4>{{ result.grade }}</h4>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p>
+        <strong>Grade Point:</strong>
+        {{ result.point }}
+    </p>
+
+    <p>
+        <strong>Semester:</strong>
+        {{ result.get_semester_display }}
+    </p>
+
+    <p>
+        <strong>Session:</strong>
+        {{ result.session }}
+    </p>
+
+</div>
+
+{% endblock %}

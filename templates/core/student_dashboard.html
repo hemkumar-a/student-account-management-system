@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>Student Dashboard</h2>
+        <p class="text-muted mb-0">
+            Welcome back, {{ user.get_full_name|default:user.email }}
+        </p>
+    </div>
+
+    <a
+        href="{% url 'accounts:profile' %}"
+        class="btn btn-outline-primary"
+    >
+        My Profile
+    </a>
+</div>
+
+
+{% if student %}
+
+<!-- Student Overview -->
+<div class="row">
+
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <h6>Student ID</h6>
+            <h3>{{ student.student_id }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <h6>Department</h6>
+            <h5>
+                {{ student.department|default:"Not assigned" }}
+            </h5>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <h6>Status</h6>
+
+            {% if student.status == "active" %}
+                <span class="badge badge-success p-2">
+                    {{ student.get_status_display }}
+                </span>
+            {% elif student.status == "suspended" %}
+                <span class="badge badge-danger p-2">
+                    {{ student.get_status_display }}
+                </span>
+            {% elif student.status == "graduated" %}
+                <span class="badge badge-primary p-2">
+                    {{ student.get_status_display }}
+                </span>
+            {% else %}
+                <span class="badge badge-secondary p-2">
+                    {{ student.get_status_display }}
+                </span>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Student Information -->
+<div class="dashboard-panel mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h4 class="mb-0">
+            Student Information
+        </h4>
+
+        <a
+            href="{% url 'accounts:profile_edit' %}"
+            class="btn btn-sm btn-outline-primary"
+        >
+            Edit Profile
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Full Name:</strong>
+                {{ student.full_name }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ user.email }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ user.phone|default:"Not provided" }}
+            </p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Department:</strong>
+                {{ student.department|default:"Not assigned" }}
+            </p>
+
+            <p>
+                <strong>Admission Date:</strong>
+                {{ student.admission_date }}
+            </p>
+
+            <p>
+                <strong>Account Status:</strong>
+                {{ student.get_status_display }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Academic Actions -->
+<div class="dashboard-panel">
+
+    <h4 class="mb-4">
+        Academic Information
+    </h4>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+
+            <a
+                href="{% url 'course:allocation_list' %}"
+                class="btn btn-outline-primary btn-block py-3"
+            >
+                <strong>My Courses</strong>
+                <br>
+                <small>View allocated courses</small>
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+
+            <a
+                href="{% url 'result:result_list' %}"
+                class="btn btn-outline-success btn-block py-3"
+            >
+                <strong>My Results</strong>
+                <br>
+                <small>View academic results</small>
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+
+            <a
+                href="{% url 'result:transcript' %}"
+                class="btn btn-outline-info btn-block py-3"
+            >
+                <strong>My Transcript</strong>
+                <br>
+                <small>View academic transcript</small>
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+
+            <a
+                href="{% url 'result:performance' %}"
+                class="btn btn-outline-warning btn-block py-3"
+            >
+                <strong>Performance</strong>
+                <br>
+                <small>View performance summary</small>
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+
+            <a
+                href="{% url 'accounts:profile' %}"
+                class="btn btn-outline-secondary btn-block py-3"
+            >
+                <strong>My Profile</strong>
+                <br>
+                <small>Manage personal information</small>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+<div class="alert alert-warning">
+
+    <h5>Student Profile Not Found</h5>
+
+    <p class="mb-0">
+        Your user account exists, but a student profile has not been
+        created yet. Please contact the administrator.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
