@@ -204,7 +204,7 @@ def student_detail(request, pk):
 
     return render(
         request,
-        "accounts/student_detail.html",
+        "accounts/student_details.html",
         {
             "student": student,
         },
